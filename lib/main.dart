@@ -1,70 +1,93 @@
-import 'package:flutter/material.dart';
-import 'package:flutterapp/product.dart';
-import 'package:flutterapp/strings.dart';
-import 'package:http/http.dart' as http;
+import 'dart:async';
 import 'dart:convert';
 
-void main() => runApp(App());
+import 'package:flutter/material.dart';
+import 'package:flutterapp/product_api.dart';
+import 'package:http/http.dart' as http;
 
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: Strings.appTitle, home: ProductApp());
+Future<ProductApi> fetchProductApi() async {
+  final response =
+  await http.get('http://ostest.whitetigersoft.ru/api/common/product/list?appKey='
+      'phynMLgDkiG06cECKA3LJATNiUZ1ijs-eNhTf0IGq4mSpJF3bD42MjPUjWwj7sqLuPy4_nBCOyX3-fRiUl6rnoCjQ0vYyKb-LR03x9kYGq53IBQ5SrN8G1jSQjUDplXF');
+//  await http.get('https://jsonplaceholder.typicode.com/albums/1');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response, then parse the JSON.
+    return ProductApi.fromJson(json.decode(response.body));
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    throw Exception('Failed to load album');
   }
 }
+//
 
+//class Product {
+//  int productId;
+//  String title;
+//  int price;
+//
+//  Product({this.productId});
+////  Product({this.productId, this.title, this.price});
+//
+//  factory Product.fromJson(Map<String, dynamic> json) {
+//    var productsFromJson = json['data'];
+//    List<Product> productsList = new List<Product>.from(productsFromJson);
+//    return productsList[1] = Product(productId: json['productId']);
+////      (
+////      productId: json['productId'],
+////      title: json['title'],
+////      price: json['price'],
+////    );
+//  }
+//}
 
-class ProductApp extends StatefulWidget {
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
   @override
-  State createState() => ProductAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
-var _products = <Product>[];
-var _data = []; // массив data в JSON-запросе
-
-final _biggerFont = const TextStyle (fontSize: 18.0);
-
-_loadData() async {
-  String dataURL = "https://api.github.com/orgs/raywenderlich/members";
-  http.Response response = await http.get(dataURL);
-  /** Когда HTTP-вызов завершается, передаём обратный вызов setState(),
-   * который выполняется синхронно в потоке пользовательского интерфейса
-   * В нашем случае декодируем ответ JSON и присваеваем его списку _members
-   */
-  setState(() {
-    _data = json.decode(response.body);
-    _products = _data[1];
-//    _products = _data[1];
-  });
-}
-
-class ProductAppState extends State<ProductApp> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(Strings.appTitle),
-        ),
-        body: ListView.builder(
-            padding: const EdgeInsets.all(16.0),
-            itemCount: _products.length,
-            itemBuilder: (BuildContext context, int position) {
-              return _buildRow(position);
-            })
-    );
-  }
+class _MyAppState extends State<MyApp> {
+  Future<ProductApi> futureProductApi;
 
   @override
   void initState() {
     super.initState();
-    _loadData();
+    futureProductApi = fetchProductApi();
   }
 
-  /**Возваращает виджет ListTile, который показывает значение «login»,
-   *  проанализированное из JSON для i-го члена, а также использует текстовый стиль, который создали ранее.
-   **/
-  Widget _buildRow(int i) {
-    return ListTile(
-        title: Text("${_products[i]["productId"]}", style: _biggerFont));
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Fetch Data Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Fetch Data Example'),
+        ),
+        body: Center(
+          child: FutureBuilder<ProductApi>(
+            future: futureProductApi,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.products[0].title);
+//                return Text(snapshot.data.products.toString());
+//                return Text(snapshot.data.title);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
+        ),
+      ),
+    );
   }
 }
