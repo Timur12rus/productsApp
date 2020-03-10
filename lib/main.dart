@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-  List<Product> productsList;
+//  List<Product> productsList;
 
   MyApp({Key key}) : super(key: key);
 
@@ -17,14 +17,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<ProductApi> futureProductApi;    // объект Future(), для асинхронного получения данных
+//  Future<ProductApi> futureProductApi;    // объект Future(), для асинхронного получения данных
 
   @override
   void initState() {
     super.initState();
-    futureProductApi = fetchProductApi();   // получаем ProductApi
+//    futureProductApi = fetchProductApi();   // получаем ProductApi
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,50 +36,25 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Products'),
         ),
-//          body: ListView.builder(
-//              itemCount: products.length,
-//              itemBuilder: (context, index) {
-//                return ListTile(
-//                  title: Text('${products[index]}'),
-//                );
-//              })
         body:
           productListWidget()
-//        Center(
-//          child: FutureBuilder<ProductApi>(
-//            future: futureProductApi,
-//            builder: (context, snapshot) {
-//              if (snapshot.hasData) {
-//                return Text(snapshot.data.products[2].title);
-////                return Text(snapshot.data.products[2].title);
-////                return Text(snap)shot.data.products.toString());
-////                return Text(snapshot.data.title);
-//              } else if (snapshot.hasError) {
-//                return Text("${snapshot.error}");
-//              }
-//
-//              // By default, show a loading spinner.
-//              return CircularProgressIndicator();
-//            },
-//          ),
-//        ),
       ),
     );
   }
 
   // метод для асинхронного получения данных, возвращает productApi
-  Future<ProductApi> fetchProductApi() async {
-    final response = await http.get(
-        'http://ostest.whitetigersoft.ru/api/common/product/list?appKey='
-        'phynMLgDkiG06cECKA3LJATNiUZ1ijs-eNhTf0IGq4mSpJF3bD42MjPUjWwj7sqLuPy4_nBCOyX3-fRiUl6rnoCjQ0vYyKb-LR03x9kYGq53IBQ5SrN8G1jSQjUDplXF');
-//  await http.get('https://jsonplaceholder.typicode.com/albums/1');
-
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response, then parse the JSON.
-      return ProductApi.fromJson(json.decode(response.body));
-    } else {
-      // If the server did not return a 200 OK response, then throw an exception.
-      throw Exception('Failed to load album');
-    }
-  }
+//  Future<ProductApi> fetchProductApi() async {
+//    final response = await http.get(
+//        'http://ostest.whitetigersoft.ru/api/common/product/list?appKey='
+//        'phynMLgDkiG06cECKA3LJATNiUZ1ijs-eNhTf0IGq4mSpJF3bD42MjPUjWwj7sqLuPy4_nBCOyX3-fRiUl6rnoCjQ0vYyKb-LR03x9kYGq53IBQ5SrN8G1jSQjUDplXF');
+////  await http.get('https://jsonplaceholder.typicode.com/albums/1');
+//
+//    if (response.statusCode == 200) {
+//      // If the server did return a 200 OK response, then parse the JSON.
+//      return ProductApi.fromJson(json.decode(response.body));
+//    } else {
+//      // If the server did not return a 200 OK response, then throw an exception.
+//      throw Exception('Failed to load album');
+//    }
+//  }
 }
