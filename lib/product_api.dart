@@ -16,7 +16,7 @@ class ProductApi {
     return ProductApi(products: parseProducts(parsedJson));
   }
 
-  /** Возвращает список продуктов **/
+  // Возвращает список продуктов
   static List<Product> parseProducts(productsJson) {
     var list = productsJson['data'] as List;
     List<Product> productList =
@@ -32,55 +32,50 @@ class Product {
   int price;
   String rating;
 
-  Product({this.productId, this.title});
+  Product({this.productId, this.title, this.price});
 
   factory Product.fromJson(Map<String, dynamic> parsedJson) {
     return Product(
-        productId: parsedJson['productId'], title: parsedJson['title']);
+        productId: parsedJson['productId'], title: parsedJson['title'], price: parsedJson['price']);
   }
 }
 
 /** Виджет - список сущностей Product **/
-Widget productListWidget() {
-  Future<ProductApi> futureProductApi;
-  futureProductApi = fetchProductApi();
-  return FutureBuilder(
-    future: futureProductApi,
-    builder: (context, productSnap) {
-//      if (productSnap.connectionState == ConnectionState.none &&
-//          productSnap.hasData == null) {
-//        print('products snapshot data is: ${productSnap.data}');
-//        return Container();
-//      }
-      if (productSnap.hasData) {
-        return ListView.builder(
-          itemCount: 14,
-          itemBuilder: (context, index) {
-            ProductApi productApi = productSnap.data;
-            List<Product> productList = productApi.products;
-            return ListTile(
-              title: Text('${productList[index].title}'),
-              subtitle: Text('productId: ${productList[index].productId}'),
-//          return Column(
-//            children: <Widget>[],
-            );
-          },
-        );
-      }
-      else if (productSnap.hasError) {
-        return Text("${productSnap.error}");
-      }
-      return CircularProgressIndicator();
-    },
-  );
-}
+class ListViewProducts extends StatelessWidget {
+//  Future<ProductApi> futureProductApi;
+//  futureProductApi = fetchProductApi();
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(title: Text('ProductList')),
-    body: productListWidget(),
-  );
+//  List<Product> products;
+  ListViewProducts({Key key}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: fetchProductApi(),
+      builder: (context, productSnap) {
+        if (productSnap.hasData) {
+          return ListView.builder(
+            //TODO: нужно сделать так, чтобы itemCount = products.length(), сейчас выдает null, нужно исправить!!!!
+            itemCount: 14,
+            itemBuilder: (context, index) {
+              ProductApi productApi = productSnap.data;
+              List<Product> productList = productApi.products;
+              return ListTile(
+                title: Text('${productList[index].title}'),
+                subtitle: Text('productId: ${productList[index].productId} \nprice: ${productList[index].price}'),
+              );
+            },
+          );
+        }
+        else if (productSnap.hasError) {
+          return Text("${productSnap.error}");
+        }
+        return CircularProgressIndicator();
+      },
+    );
+
+  }
 }
 
 // метод для асинхронного получения данных, возвращает productApi
