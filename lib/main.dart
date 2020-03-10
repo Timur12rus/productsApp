@@ -6,8 +6,8 @@ import 'package:flutterapp/product_api.dart';
 import 'package:http/http.dart' as http;
 
 Future<ProductApi> fetchProductApi() async {
-  final response =
-  await http.get('http://ostest.whitetigersoft.ru/api/common/product/list?appKey='
+  final response = await http.get(
+      'http://ostest.whitetigersoft.ru/api/common/product/list?appKey='
       'phynMLgDkiG06cECKA3LJATNiUZ1ijs-eNhTf0IGq4mSpJF3bD42MjPUjWwj7sqLuPy4_nBCOyX3-fRiUl6rnoCjQ0vYyKb-LR03x9kYGq53IBQ5SrN8G1jSQjUDplXF');
 //  await http.get('https://jsonplaceholder.typicode.com/albums/1');
 
@@ -19,27 +19,6 @@ Future<ProductApi> fetchProductApi() async {
     throw Exception('Failed to load album');
   }
 }
-//
-
-//class Product {
-//  int productId;
-//  String title;
-//  int price;
-//
-//  Product({this.productId});
-////  Product({this.productId, this.title, this.price});
-//
-//  factory Product.fromJson(Map<String, dynamic> json) {
-//    var productsFromJson = json['data'];
-//    List<Product> productsList = new List<Product>.from(productsFromJson);
-//    return productsList[1] = Product(productId: json['productId']);
-////      (
-////      productId: json['productId'],
-////      title: json['title'],
-////      price: json['price'],
-////    );
-//  }
-//}
 
 void main() => runApp(MyApp());
 
@@ -75,8 +54,8 @@ class _MyAppState extends State<MyApp> {
             future: futureProductApi,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data.products[0].title);
-//                return Text(snapshot.data.products.toString());
+                return Text(snapshot.data.products[2].title);
+//                return Text(snap)shot.data.products.toString());
 //                return Text(snapshot.data.title);
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");

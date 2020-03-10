@@ -1,18 +1,10 @@
 class ProductApi {
-//  Meta meta;
-//  ProductList productList;
   List<Product> products;
 
   ProductApi({this.products});
 
-//  ProductApi({this.productList});
-
   factory ProductApi.fromJson(Map<String, dynamic> parsedJson) {
-//    var productsFromJson = parsedJson['data'];
-//    List<Product> productsList = productsFromJson.cast<String>();
-//    List<Product> productsList = productsFromJson.cast<String>();
     return ProductApi(
-//      products: productsList,
     products: parseProducts(parsedJson)
     );
   }
@@ -38,20 +30,6 @@ class Product {
         productId: parsedJson['productId'], title: parsedJson['title']);
   }
 }
-
-//class ProductList {
-//  List<Product> products;
-//
-//  ProductList({this.products});
-//
-//  factory ProductList.fromJson(Map<String, dynamic> parsedJson) {
-//    List<Product> products = new List<Product>();
-//    products = parsedJson.map((i) => Product.fromJson(i)).toList();
-//
-//    return new ProductList(products: products);
-//  }
-//}
-
 class Meta {
   bool success;
   String error;
