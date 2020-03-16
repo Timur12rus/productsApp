@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/product_api.dart';
 
+import 'category_api.dart';
+
+//void main() => runApp(new MaterialApp(
+//  home: new Scaffold(
+//  appBar: new AppBar(),
+//    body:new ProductBox('Урок по Flutter', 10)
+//  ))
+//);
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -33,7 +42,8 @@ class _MyAppState extends State<MyApp> {
           title: Text('Products'),
         ),
         body:
-          ListViewProducts()
+        ListViewCategories()
+//          ListViewProducts()
       ),
     );
   }
