@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/product_api.dart';
+import 'package:flutterapp/Products/product_api.dart';
 
-import 'category_api.dart';
+import 'Catregories/category.dart';
+import 'Products/productList.dart';
+//import 'Catregory/category_api.dart';
 
 //void main() => runApp(new MaterialApp(
 //  home: new Scaffold(
