@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Products/products_screen.dart';
 import 'package:http/http.dart' as http;
 
 import 'category.dart';
@@ -56,14 +57,17 @@ class ListViewCategories extends StatelessWidget {
 
   Widget _buildListItem(BuildContext context, Category category) {
     return ListTile(
-      leading: Image.network(
-        category.imageUrl,
-        width: 100.0,
-        height: 100.0,
-        fit: BoxFit.cover,
-      ),
-      title: Text('${category.title}'),
-      subtitle: Text('categoryId: ${category.categoryId}'),
+        leading: Image.network(
+          category.imageUrl,
+          width: 100.0,
+          height: 100.0,
+          fit: BoxFit.cover,
+        ),
+        title: Text('${category.title}'),
+        subtitle: Text('categoryId: ${category.categoryId}'),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+        }
 //      onTap: () {print("${category.title}");},
     );
   }

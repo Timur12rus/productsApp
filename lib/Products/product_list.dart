@@ -48,7 +48,7 @@ class ListViewProducts extends StatelessWidget {
         } else if (productSnap.hasError) {
           return Text("${productSnap.error}");
         }
-        return CircularProgressIndicator();
+        return Center(child: CircularProgressIndicator());
       },
     );
   }
