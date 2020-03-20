@@ -41,7 +41,6 @@ class ListViewProducts extends StatelessWidget {
         if (productSnap.hasData) {
           List<Product> products = productSnap.data;
           return ListView.builder(
-            //TODO: нужно сделать так, чтобы itemCount = products.length(), сейчас выдает null, нужно исправить!!!!
             itemCount: products?.length ?? 0,
             itemBuilder: (context, index) {
               var product = productSnap.data[index];
