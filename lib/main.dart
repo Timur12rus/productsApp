@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Products/product_api.dart';
-
 import 'Catregories/category.dart';
-import 'Products/productList.dart';
-//import 'Catregory/category_api.dart';
-
-//void main() => runApp(new MaterialApp(
-//  home: new Scaffold(
-//  appBar: new AppBar(),
-//    body:new ProductBox('Урок по Flutter', 10)
-//  ))
-//);
+import 'Catregories/category_list.dart';
 
 void main() => runApp(MyApp());
-
 class MyApp extends StatefulWidget {
-//  List<Product> productsList;
 
   MyApp({Key key}) : super(key: key);
 
@@ -24,12 +12,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-//  Future<ProductApi> futureProductApi;    // объект Future(), для асинхронного получения данных
-
   @override
   void initState() {
     super.initState();
-//    futureProductApi = fetchProductApi();   // получаем ProductApi
   }
 
   @override

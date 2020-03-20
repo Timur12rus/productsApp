@@ -7,8 +7,6 @@ import 'package:flutterapp/Products/product_api.dart';
 import 'package:http/http.dart' as http;
 
 class ProductList {
-  List<Product> productList;
-
   // Возвращает список продуктов
   static List<Product> parseProducts(productsJson) {
     var list = productsJson['data'] as List;
