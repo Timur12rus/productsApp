@@ -66,7 +66,8 @@ class ListViewCategories extends StatelessWidget {
         title: Text('${category.title}'),
         subtitle: Text('categoryId: ${category.categoryId}'),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+          var productCategoryId = category.categoryId;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsScreen(categoryId: productCategoryId)));
         }
 //      onTap: () {print("${category.title}");},
     );

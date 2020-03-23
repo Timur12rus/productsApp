@@ -5,6 +5,7 @@ class Product {
   int price;
   String rating;
   String imageUrl;
+  int categoryId;
 
   Product({this.productId, this.title, this.price, this.imageUrl});
 

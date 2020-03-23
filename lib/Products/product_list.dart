@@ -16,8 +16,8 @@ class ProductList {
   }
 }
 
-Future<List<Product>> loadProductList() async {
-  final response = await http.get(ProductApi.productsApiURL);
+Future<List<Product>> loadProductList(int categoryId) async {
+  final response = await http.get(ProductApi.productsApiURL + '&categoryId=${categoryId}');
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response, then parse the JSON.
     return ProductList.parseProducts(json.decode(response.body));
@@ -29,12 +29,14 @@ Future<List<Product>> loadProductList() async {
 
 /** Виджет - список сущностей Product **/
 class ListViewProducts extends StatelessWidget {
-  ListViewProducts({Key key}) : super(key: key);
+  int categoryId;
+  ListViewProducts(this.categoryId, {Key key}) : super(key: key);
+//  ProductsScreen({Key key, @required this.categoryId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadProductList(),
+      future: loadProductList(categoryId),
       builder: (context, productSnap) {
         if (productSnap.hasData) {
           List<Product> products = productSnap.data;

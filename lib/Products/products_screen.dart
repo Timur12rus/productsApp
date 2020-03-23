@@ -4,13 +4,18 @@ import 'package:flutterapp/Catregories/categories_list.dart';
 import 'package:flutterapp/Products/product_list.dart';
 
 class ProductsScreen extends StatefulWidget {
-  ProductsScreen({Key key}) : super(key: key);
+  final int categoryId;
+
+  /// добавил в коснтруктор экрана списка продуктов categoryId, чтобы потом передать его в список товаров(ListView),
+  /// для отображения товаров выбранной категории
+  ProductsScreen({Key key, @required this.categoryId}) : super(key: key);
 
   @override
   _ProductsScreenState createState() => _ProductsScreenState();
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +34,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           ),
           body:
 //          ListViewCategories()
-              ListViewProducts()),
+              ListViewProducts(widget.categoryId)),
     );
   }
 }
