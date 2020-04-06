@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Products/products_screen.dart';
 import 'category.dart';
 import '../Api/category_api.dart';
+import 'category_list_view_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
   CategoryApi categoryApi;
+
   CategoriesScreen({Key key}) : super(key: key);
 
   @override
@@ -25,12 +27,14 @@ class CategoryListView extends StatefulWidget {
   CategoryApi categoryApi;
 
   CategoryListView(this.categoryApi, {Key key}) : super(key: key);
+
   @override
   _CategoryListViewState createState() => _CategoryListViewState(categoryApi);
 }
 
 class _CategoryListViewState extends State<CategoryListView> {
   CategoryApi categoryApi;
+
   _CategoryListViewState(this.categoryApi);
 
   @override
@@ -40,7 +44,8 @@ class _CategoryListViewState extends State<CategoryListView> {
       future: categoryApi.loadJsonData(CategoryApi.categoryStringUrl, ''),
       builder: (context, categorySnap) {
         if (categorySnap.hasData) {
-          List<Category> categories = categoryApi.parseCategories(categorySnap.data);
+          List<Category> categories =
+              categoryApi.parseCategories(categorySnap.data);
           return _categoryListViewBuilder(categories);
         }
         if (categorySnap.hasError) {
@@ -53,11 +58,16 @@ class _CategoryListViewState extends State<CategoryListView> {
 }
 
 Widget _categoryListViewBuilder(List<Category> categories) {
-  return ListView.builder(
+//  return ListView.builder(
+  return GridView.builder(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+    ),
     itemCount: categories?.length ?? 0,
     itemBuilder: (context, index) {
       var category = categories[index];
-      return _buildListItem(context, category);
+      return CategoryListViewItem(context, category);
+//      return _buildListItem(context, category);
     },
   );
 }
