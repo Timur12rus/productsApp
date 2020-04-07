@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Products/products_screen.dart';
 import 'category.dart';
 import '../Api/category_api.dart';
 import 'category_list_view_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
   CategoryApi categoryApi;
-
   CategoriesScreen({Key key}) : super(key: key);
 
   @override
@@ -25,7 +23,6 @@ class CategoriesScreen extends StatelessWidget {
 /** Виджет - список сущностей Category **/
 class CategoryListView extends StatefulWidget {
   CategoryApi categoryApi;
-
   CategoryListView(this.categoryApi, {Key key}) : super(key: key);
 
   @override
@@ -34,7 +31,6 @@ class CategoryListView extends StatefulWidget {
 
 class _CategoryListViewState extends State<CategoryListView> {
   CategoryApi categoryApi;
-
   _CategoryListViewState(this.categoryApi);
 
   @override
@@ -58,7 +54,6 @@ class _CategoryListViewState extends State<CategoryListView> {
 }
 
 Widget _categoryListViewBuilder(List<Category> categories) {
-//  return ListView.builder(
   return GridView.builder(
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
@@ -67,27 +62,6 @@ Widget _categoryListViewBuilder(List<Category> categories) {
     itemBuilder: (context, index) {
       var category = categories[index];
       return CategoryListViewItem(context, category);
-//      return _buildListItem(context, category);
     },
   );
-}
-
-Widget _buildListItem(BuildContext context, Category category) {
-  return ListTile(
-      leading: Image.network(
-        category.imageUrl,
-        width: 100.0,
-        height: 100.0,
-        fit: BoxFit.cover,
-      ),
-      title: Text('${category.title}'),
-      subtitle: Text('categoryId: ${category.categoryId}'),
-      onTap: () {
-        var productCategoryId = category.categoryId;
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    ProductsScreen(categoryId: productCategoryId)));
-      });
 }

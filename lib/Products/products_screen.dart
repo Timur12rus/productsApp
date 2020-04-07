@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Api/product_api.dart';
 import 'package:flutterapp/Products/product.dart';
+import 'package:flutterapp/Products/product_list_view_item.dart';
 
 class ProductsScreen extends StatelessWidget {
   ProductApi productApi;
@@ -41,7 +42,7 @@ class _ProductListViewState extends State<ProductListView> {
   Widget build(BuildContext context) {
     print('categoryId = ' + '${categoryId}');
     return FutureBuilder(
-      future: productApi.loadJsonData(ProductApi.productStringUrl, ProductApi.categoryIdString + '${categoryId}'),
+      future: productApi.loadJsonData(productApi.productStringUrl, productApi.categoryIdString + '${categoryId}'),
       builder: (context, productSnap) {
         if (productSnap.hasData) {
           List<Product> products = productApi.parseProducts(productSnap.data);
@@ -57,25 +58,17 @@ class _ProductListViewState extends State<ProductListView> {
 }
 
 Widget _productListViewBuilder(List<Product> products) {
-  return ListView.builder(
+  return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      ),
     itemCount: products?.length ?? 0,
     itemBuilder: (context, index) {
       var product = products[index];
-      return _buildListItem(context, product);
+      return ProductListViewItem(context, product);
+//      return _buildListItem(context, product);
     },
   );
 }
 
-Widget _buildListItem(BuildContext context, Product product) {
-  return ListTile(
-    leading: Image.network(
-      product.imageUrl,
-      width: 100.0,
-      height: 100.0,
-      fit: BoxFit.cover,
-    ),
-    title: Text('${product.title}'),
-    subtitle:
-    Text('productId: ${product.productId} \nprice: ${product.price}'),
-  );
-}
+
