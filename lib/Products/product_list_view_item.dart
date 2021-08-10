@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Products/product.dart';
 
-//TODO: update like CategoryListViewItem
 class ProductListViewItem extends StatelessWidget {
   final Product product;
   int categoryId;
