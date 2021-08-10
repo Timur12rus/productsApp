@@ -5,7 +5,6 @@ import '../Api/category_api.dart';
 import 'category.dart';
 import 'category_list_view_item.dart';
 
-//TODO: refactor like products
 class CategoriesScreen extends StatefulWidget {
   CategoriesScreen({Key key}) : super(key: key);
 
