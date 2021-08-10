@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../Api/category_api.dart';
 
+//TODO: use generator
 class Category {
   int categoryId;
   String title;
@@ -17,8 +18,9 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> parsedJson) {
     return Category(
-        categoryId: parsedJson['categoryId'],
-        title: parsedJson['title'],
-        imageUrl: parsedJson['imageUrl']);
+      categoryId: parsedJson['categoryId'],
+      title: parsedJson['title'],
+      imageUrl: parsedJson['imageUrl'],
+    );
   }
 }

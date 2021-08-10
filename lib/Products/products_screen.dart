@@ -4,49 +4,45 @@ import 'package:flutterapp/Api/product_api.dart';
 import 'package:flutterapp/Products/product.dart';
 import 'package:flutterapp/Products/product_list_view_item.dart';
 
-class ProductsScreen extends StatelessWidget {
-  ProductApi productApi;
+class ProductsScreen extends StatefulWidget {
   final int categoryId;
+  final String categoryTitle;
 
-  ProductsScreen({Key key, this.categoryId}) : super(key: key);
+  ProductsScreen({
+    Key key,
+    this.categoryTitle,
+    this.categoryId,
+  }) : super(key: key);
+
+  @override
+  _ProductsScreenState createState() => _ProductsScreenState();
+}
+
+class _ProductsScreenState extends State<ProductsScreen> {
+  final ProductApi productApi = ProductApi();
 
   @override
   Widget build(BuildContext context) {
-    productApi = ProductApi();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Products'),
-      ),
+      appBar: buildAppBar(context),
       body: Center(
-          child: ProductListView(productApi, categoryId)),
+        child: buildListView(context),
+      ),
     );
   }
-}
 
-class ProductListView extends StatefulWidget {
-  ProductApi productApi;
-  int categoryId;
+  Widget buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(widget.categoryTitle),
+    );
+  }
 
-  ProductListView(this.productApi, this.categoryId, {Key key}) : super(key: key);
-  @override
-  _ProductListViewState createState() => _ProductListViewState(productApi, categoryId);
-}
-
-class _ProductListViewState extends State<ProductListView> {
-  ProductApi productApi;
-  int categoryId;
-
-  _ProductListViewState(this.productApi, this.categoryId);
-
-  @override
-  Widget build(BuildContext context) {
-    print('categoryId = ' + '${categoryId}');
+  Widget buildListView(BuildContext context) {
     return FutureBuilder(
-      future: productApi.loadJsonData(productApi.productStringUrl, productApi.categoryIdString + '${categoryId}'),
+      future: productApi.loadProducts(widget.categoryId),
       builder: (context, productSnap) {
         if (productSnap.hasData) {
-          List<Product> products = productApi.parseProducts(productSnap.data);
-          return _productListViewBuilder(products);
+          return _buildListView(productSnap.data);
         }
         if (productSnap.hasError) {
           return Text("${productSnap.error}");
@@ -57,18 +53,15 @@ class _ProductListViewState extends State<ProductListView> {
   }
 }
 
-Widget _productListViewBuilder(List<Product> products) {
+Widget _buildListView(List<Product> products) {
   return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      ),
+    ),
     itemCount: products?.length ?? 0,
     itemBuilder: (context, index) {
       var product = products[index];
-      return ProductListViewItem(context, product);
-//      return _buildListItem(context, product);
+      return ProductListViewItem(product);
     },
   );
 }
-
-

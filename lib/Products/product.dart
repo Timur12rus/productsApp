@@ -1,3 +1,4 @@
+//TODO: use generator
 class Product {
   int productId;
   String title;
@@ -7,13 +8,19 @@ class Product {
   String imageUrl;
   int categoryId;
 
-  Product({this.productId, this.title, this.price, this.imageUrl});
+  Product({
+    this.productId,
+    this.title,
+    this.price,
+    this.imageUrl,
+  });
 
   factory Product.fromJson(Map<String, dynamic> parsedJson) {
     return Product(
-        productId: parsedJson['productId'],
-        title: parsedJson['title'],
-        price: parsedJson['price'],
-        imageUrl: parsedJson['imageUrl']);
+      productId: parsedJson['productId'],
+      title: parsedJson['title'],
+      price: parsedJson['price'],
+      imageUrl: parsedJson['imageUrl'],
+    );
   }
 }

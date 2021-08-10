@@ -1,48 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'category.dart';
+
 import '../Api/category_api.dart';
+import 'category.dart';
 import 'category_list_view_item.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  CategoryApi categoryApi;
+//TODO: refactor like products
+class CategoriesScreen extends StatefulWidget {
   CategoriesScreen({Key key}) : super(key: key);
 
   @override
+  _CategoryScreenState createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoriesScreen> {
+  final CategoryApi categoryApi = CategoryApi();
+
+  @override
   Widget build(BuildContext context) {
-    categoryApi = CategoryApi();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Categories'),
+      appBar: buildAppBar(context),
+      body: Center(
+        child: buildListView(context),
       ),
-      body: Center(child: CategoryListView(categoryApi)),
     );
   }
-}
 
-/** Виджет - список сущностей Category **/
-class CategoryListView extends StatefulWidget {
-  CategoryApi categoryApi;
-  CategoryListView(this.categoryApi, {Key key}) : super(key: key);
+  Widget buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text('Categories'),
+    );
+  }
 
-  @override
-  _CategoryListViewState createState() => _CategoryListViewState(categoryApi);
-}
-
-class _CategoryListViewState extends State<CategoryListView> {
-  CategoryApi categoryApi;
-  _CategoryListViewState(this.categoryApi);
-
-  @override
-  Widget build(BuildContext context) {
-    print('build Category List');
+  Widget buildListView(BuildContext context) {
     return FutureBuilder(
-      future: categoryApi.loadJsonData(CategoryApi.categoryStringUrl, ''),
+      future: categoryApi.loadCatrgories(),
       builder: (context, categorySnap) {
         if (categorySnap.hasData) {
-          List<Category> categories =
-              categoryApi.parseCategories(categorySnap.data);
-          return _categoryListViewBuilder(categories);
+          return _buildListView(context, categorySnap.data);
         }
         if (categorySnap.hasError) {
           return Text("${categorySnap.error}");
@@ -53,7 +48,7 @@ class _CategoryListViewState extends State<CategoryListView> {
   }
 }
 
-Widget _categoryListViewBuilder(List<Category> categories) {
+Widget _buildListView(BuildContext context, List<Category> categories) {
   return GridView.builder(
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
@@ -61,7 +56,7 @@ Widget _categoryListViewBuilder(List<Category> categories) {
     itemCount: categories?.length ?? 0,
     itemBuilder: (context, index) {
       var category = categories[index];
-      return CategoryListViewItem(context, category);
+      return CategoryListViewItem(category);
     },
   );
 }
